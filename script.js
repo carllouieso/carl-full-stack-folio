@@ -1,0 +1,371 @@
+const navToggle = document.querySelector(".nav-toggle");
+const siteNav = document.querySelector(".site-nav");
+const year = document.querySelector("#year");
+const pixelHeadline = document.querySelector(".pixel-headline");
+const questTabs = document.querySelectorAll(".quest-tab");
+const questTitle = document.querySelector("#quest-title");
+const questCopy = document.querySelector("#quest-copy");
+const xpButton = document.querySelector(".mini-game-button");
+const xpPop = document.querySelector(".xp-pop");
+const projectCards = document.querySelectorAll(".project-card");
+const raviaActiveScreen = document.querySelector("#ravia-active-screen");
+const raviaMissionCopy = document.querySelector("#ravia-mission-copy");
+const raviaScreenControls = document.querySelectorAll("[data-ravia-screen]");
+const raviaActivePhone = document.querySelector(".active-phone");
+const dashboardActiveScreen = document.querySelector("#dashboard-active-screen");
+const dashboardCardCopy = document.querySelector("#dashboard-card-copy");
+const dashboardControls = document.querySelectorAll("[data-dashboard-screen]");
+const dashboardMonitor = document.querySelector(".dashboard-monitor");
+const imagePreview = document.querySelector(".image-preview");
+const imagePreviewImage = document.querySelector(".image-preview img");
+const skillNodes = document.querySelectorAll("[data-skill]");
+const skillTitle = document.querySelector("#skill-title");
+const skillCopy = document.querySelector("#skill-copy");
+const skillProof = document.querySelector("#skill-proof");
+const loadoutGrid = document.querySelector(".loadout-grid");
+const skillBars = document.querySelectorAll(".skill-meter i");
+const heroXpBars = document.querySelectorAll(".xp-meter span");
+const loadoutDetail = document.querySelector(".loadout-detail");
+
+const questContent = {
+  games: {
+    title: "Make Playable Worlds",
+    copy: "Unity, C#, AR, mobile performance, and gameplay loops for real players.",
+  },
+  systems: {
+    title: "Build The Live Layer",
+    copy: "Node APIs, PostgreSQL, Redis, auth, rewards, geofences, and player progression.",
+  },
+  leadership: {
+    title: "Guide The Party",
+    copy: "Curriculum, mentorship, project direction, and team habits that keep builds moving.",
+  },
+};
+const raviaScreens = {
+  home: {
+    src: "assets/images/ar-mobile-game/Home.png",
+    alt: "Ravia home screen showing player status and actions",
+    scrollable: false,
+    copy:
+      "Players enter a location-based hub where profile status, progression, and available actions stay readable for younger players.",
+  },
+  puzzle: {
+    src: "assets/images/ar-mobile-game/PuzzleLobby.png",
+    alt: "Ravia puzzle lobby screen",
+    scrollable: false,
+    copy:
+      "Puzzle lobbies turn exploration into structured learning moments, giving players a clear next challenge and reward path.",
+  },
+  inventory: {
+    src: "assets/images/ar-mobile-game/Inventory.png",
+    alt: "Ravia inventory screen showing collected items",
+    scrollable: false,
+    copy:
+      "Inventory systems make collected tokens and rewards feel owned, trackable, and useful inside the player progression loop.",
+  },
+  store: {
+    src: "assets/images/ar-mobile-game/StoreFeatured.png",
+    alt: "Ravia featured store screen",
+    scrollable: true,
+    copy:
+      "The store and cosmetics loop gives rewards a destination, helping progression feel personal without losing parent-supervised guardrails.",
+  },
+};
+const dashboardScreens = {
+  overview: {
+    src: "assets/images/dashboard-pwa/dashboard.png",
+    alt: "Ravia dashboard overview showing child profiles and RAV health",
+    copy:
+      "A parent command center for monitoring child profiles, RAV health, quest completion, screen time, and active play status at a glance.",
+  },
+  approvals: {
+    src: "assets/images/dashboard-pwa/Approvals.png",
+    alt: "Ravia dashboard approvals screen",
+    copy:
+      "Approval flows give parents a clear checkpoint before sensitive actions continue, keeping gameplay progress tied to supervision.",
+  },
+  notifications: {
+    src: "assets/images/dashboard-pwa/Notifications.png",
+    alt: "Ravia dashboard notifications screen",
+    copy:
+      "Notifications surface important play events, reminders, and account updates so parents can respond without digging through menus.",
+  },
+  settings: {
+    src: "assets/images/dashboard-pwa/Control Settings.png",
+    alt: "Ravia dashboard control settings screen",
+    copy:
+      "Control settings turn safety rules into readable toggles and limits, helping parents tune the experience for each child.",
+  },
+  profile: {
+    src: "assets/images/dashboard-pwa/child profile - 1.png",
+    alt: "Ravia dashboard child profile screen",
+    copy:
+      "Child profile views organize progress, status, and account details into a focused screen for quick parent review.",
+  },
+};
+const skillLoadouts = {
+  client: {
+    title: "Game Client",
+    copy: "Unity, C#, gameplay loops, mobile optimization, Android, iOS, and desktop builds.",
+    tools: ["Unity", "C#", "Mobile Performance", "Gameplay Systems"],
+    proof: "MotoGP Championship Quest and Ravia mobile gameplay.",
+    bars: ["92%", "88%", "84%"],
+  },
+  ar: {
+    title: "AR & Interaction",
+    copy: "Augmented reality, Google Geospatial API, motion capture, AI integration, and real-world play patterns.",
+    tools: ["AR", "Google Geospatial API", "Motion Capture", "AI Integration"],
+    proof: "Ravia, Experience Philippines, iACADEMY App, and stAIled.",
+    bars: ["90%", "86%", "82%"],
+  },
+  web: {
+    title: "Web Systems",
+    copy: "Flutter surfaces, PWA dashboards, JavaScript, Node.js, Express, PostgreSQL, Redis, and API documentation.",
+    tools: ["Flutter", "PWA", "Node.js", "PostgreSQL", "Redis"],
+    proof: "Ravia Parent Dashboard and Ravia Backend API.",
+    bars: ["86%", "90%", "88%"],
+  },
+  lead: {
+    title: "Leadership",
+    copy: "Curriculum development, mentorship, project management, department leadership, and cross-discipline direction.",
+    tools: ["Mentorship", "Curriculum", "Project Direction", "Team Systems"],
+    proof: "Game Development Chairperson work at iACADEMY.",
+    bars: ["94%", "89%", "92%"],
+  },
+};
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+year.textContent = new Date().getFullYear();
+
+const animateMeter = (bar, targetWidth) => {
+  if (!bar) {
+    return;
+  }
+
+  if (prefersReducedMotion) {
+    bar.style.width = targetWidth;
+    return;
+  }
+
+  bar.style.width = "0%";
+
+  window.requestAnimationFrame(() => {
+    window.setTimeout(() => {
+      bar.style.width = targetWidth;
+    }, 80);
+  });
+};
+
+heroXpBars.forEach((bar) => {
+  animateMeter(bar, bar.style.width || "86%");
+});
+
+skillBars.forEach((bar) => {
+  animateMeter(bar, bar.style.width || "80%");
+});
+
+if (pixelHeadline) {
+  const headlineText = pixelHeadline.dataset.text || pixelHeadline.textContent.trim();
+
+  pixelHeadline.textContent = "";
+
+  if (prefersReducedMotion) {
+    pixelHeadline.textContent = headlineText;
+    pixelHeadline.classList.add("is-complete");
+  } else {
+    let characterIndex = 0;
+
+    const typeHeadline = () => {
+      pixelHeadline.textContent = headlineText.slice(0, characterIndex);
+      characterIndex += 1;
+
+      if (characterIndex <= headlineText.length) {
+        window.setTimeout(typeHeadline, 28);
+        return;
+      }
+
+      pixelHeadline.classList.add("is-complete");
+    };
+
+    window.setTimeout(typeHeadline, 240);
+  }
+}
+
+navToggle.addEventListener("click", () => {
+  const isOpen = siteNav.classList.toggle("is-open");
+  navToggle.setAttribute("aria-expanded", String(isOpen));
+});
+
+siteNav.addEventListener("click", (event) => {
+  if (event.target instanceof HTMLAnchorElement) {
+    siteNav.classList.remove("is-open");
+    navToggle.setAttribute("aria-expanded", "false");
+  }
+});
+
+questTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const questKey = tab.dataset.quest;
+    const selectedQuest = questContent[questKey];
+
+    if (!selectedQuest || !questTitle || !questCopy) {
+      return;
+    }
+
+    questTabs.forEach((item) => item.classList.remove("is-active"));
+    tab.classList.add("is-active");
+    questTitle.textContent = selectedQuest.title;
+    questCopy.textContent = selectedQuest.copy;
+  });
+});
+
+xpButton?.addEventListener("click", () => {
+  if (!xpPop) {
+    return;
+  }
+
+  xpPop.textContent = `+${Math.floor(Math.random() * 70) + 30} XP`;
+  xpPop.classList.remove("is-visible");
+  void xpPop.offsetWidth;
+  xpPop.classList.add("is-visible");
+});
+
+const setRaviaScreen = (screenKey) => {
+  const screen = raviaScreens[screenKey];
+
+  if (!screen || !raviaActiveScreen || !raviaMissionCopy) {
+    return;
+  }
+
+  raviaScreenControls.forEach((control) => {
+    control.classList.toggle("is-active", control.dataset.raviaScreen === screenKey);
+  });
+
+  raviaActiveScreen.src = screen.src;
+  raviaActiveScreen.alt = screen.alt;
+  raviaMissionCopy.textContent = screen.copy;
+
+  if (raviaActivePhone) {
+    const viewport = raviaActivePhone.querySelector(".phone-viewport");
+    raviaActivePhone.classList.toggle("is-scrollable", screen.scrollable);
+    viewport?.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }
+
+  if (!prefersReducedMotion && raviaActivePhone) {
+    raviaActivePhone.classList.remove("is-swapping");
+    void raviaActivePhone.offsetWidth;
+    raviaActivePhone.classList.add("is-swapping");
+  }
+};
+
+raviaScreenControls.forEach((control) => {
+  control.addEventListener("click", () => {
+    setRaviaScreen(control.dataset.raviaScreen);
+  });
+});
+
+const setDashboardScreen = (screenKey) => {
+  const screen = dashboardScreens[screenKey];
+
+  if (!screen || !dashboardActiveScreen || !dashboardCardCopy) {
+    return;
+  }
+
+  dashboardControls.forEach((control) => {
+    control.classList.toggle("is-active", control.dataset.dashboardScreen === screenKey);
+  });
+
+  dashboardActiveScreen.src = screen.src;
+  dashboardActiveScreen.alt = screen.alt;
+  dashboardCardCopy.textContent = screen.copy;
+
+  if (imagePreviewImage) {
+    imagePreviewImage.src = screen.src;
+  }
+
+  if (!prefersReducedMotion && dashboardMonitor) {
+    dashboardMonitor.classList.remove("is-swapping");
+    void dashboardMonitor.offsetWidth;
+    dashboardMonitor.classList.add("is-swapping");
+  }
+};
+
+dashboardControls.forEach((control) => {
+  control.addEventListener("click", () => {
+    setDashboardScreen(control.dataset.dashboardScreen);
+  });
+});
+
+dashboardMonitor?.addEventListener("pointerenter", () => {
+  if (!imagePreview || !imagePreviewImage || !dashboardActiveScreen) {
+    return;
+  }
+
+  imagePreviewImage.src = dashboardActiveScreen.src;
+  imagePreview.classList.add("is-visible");
+});
+
+dashboardMonitor?.addEventListener("pointerleave", () => {
+  imagePreview?.classList.remove("is-visible");
+});
+
+const setSkillLoadout = (skillKey) => {
+  const loadout = skillLoadouts[skillKey];
+
+  if (!loadout || !skillTitle || !skillCopy || !skillProof || !loadoutGrid) {
+    return;
+  }
+
+  skillNodes.forEach((node) => {
+    node.classList.toggle("is-active", node.dataset.skill === skillKey);
+  });
+
+  skillTitle.textContent = loadout.title;
+  skillCopy.textContent = loadout.copy;
+  skillProof.textContent = loadout.proof;
+  loadoutGrid.replaceChildren(
+    ...loadout.tools.map((tool) => {
+      const item = document.createElement("span");
+      item.textContent = tool;
+      return item;
+    }),
+  );
+
+  skillBars.forEach((bar, index) => {
+    animateMeter(bar, loadout.bars[index] || "80%");
+  });
+
+  if (!prefersReducedMotion && loadoutDetail) {
+    loadoutDetail.classList.remove("is-swapping");
+    void loadoutDetail.offsetWidth;
+    loadoutDetail.classList.add("is-swapping");
+  }
+};
+
+skillNodes.forEach((node) => {
+  node.addEventListener("click", () => {
+    setSkillLoadout(node.dataset.skill);
+  });
+});
+
+projectCards.forEach((card) => {
+  card.addEventListener("pointermove", (event) => {
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const bounds = card.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    const rotateY = ((x / bounds.width) - 0.5) * 4;
+    const rotateX = ((y / bounds.height) - 0.5) * -4;
+
+    card.classList.add("is-tilting");
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+  });
+
+  card.addEventListener("pointerleave", () => {
+    card.classList.remove("is-tilting");
+    card.style.transform = "";
+  });
+});

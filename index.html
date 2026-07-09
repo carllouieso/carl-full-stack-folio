@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Full-stack portfolio for Carl, featuring web apps, backend systems, and product-minded engineering work."
+    />
+    <title>Carl | Full-Stack Developer</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Carl portfolio home">
+        <span class="brand-mark">C</span>
+        <span>Carl</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#stack">Stack</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-download" href="assets/documents/carl-louie-so-cv.pdf" download>
+          Download CV
+        </a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero section-pad">
+        <div class="hero-copy">
+          <p class="eyebrow">Full-stack developer</p>
+          <h1
+            class="pixel-headline"
+            data-text="Turning ideas into playable experiences with clean code, thoughtful design, and systems that hold up beyond the first build."
+          >
+            Turning ideas into playable experiences with clean code, thoughtful design, and systems
+            that hold up beyond the first build.
+          </h1>
+          <p class="hero-text">
+            I build games, AR tools, mobile apps, and backend systems with the same goal: make the
+            experience feel alive, readable, and sturdy enough for real players.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">View projects</a>
+            <a class="button secondary" href="#contact">Start a conversation</a>
+            <a class="button secondary" href="assets/documents/carl-louie-so-cv.pdf" download>
+              Download CV
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual game-console" aria-label="Interactive game developer profile">
+          <div class="console-topbar">
+            <span class="console-light is-live"></span>
+            <span>PLAYER PROFILE</span>
+            <strong>LVL 10</strong>
+          </div>
+
+          <div class="console-screen">
+            <div class="avatar-frame" aria-hidden="true">
+              <div class="pixel-avatar">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="loadout-panel">
+              <p class="loadout-kicker">Current build</p>
+              <h2>Game Dev / AR / Full-Stack</h2>
+              <div class="xp-meter" aria-label="Portfolio build progress">
+                <span style="width: 86%"></span>
+              </div>
+              <p class="xp-label">Portfolio XP: 860 / 1000</p>
+            </div>
+
+            <div class="quest-tabs" role="tablist" aria-label="Developer profile tabs">
+              <button class="quest-tab is-active" type="button" data-quest="games">Games</button>
+              <button class="quest-tab" type="button" data-quest="systems">Systems</button>
+              <button class="quest-tab" type="button" data-quest="leadership">Lead</button>
+            </div>
+
+            <div class="quest-card" aria-live="polite">
+              <span class="quest-label">Active quest</span>
+              <h3 id="quest-title">Make Playable Worlds</h3>
+              <p id="quest-copy">
+                Unity, C#, AR, mobile performance, and gameplay loops for real players.
+              </p>
+            </div>
+
+            <div class="console-actions">
+              <button class="mini-game-button" type="button">Collect XP</button>
+              <span class="xp-pop" aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad intro-band" aria-label="Portfolio highlights">
+        <div>
+          <span class="stat">Game Feel</span>
+          <p>Readable loops, polished feedback, player-first interfaces, and moment-to-moment flow.</p>
+        </div>
+        <div>
+          <span class="stat">AR Systems</span>
+          <p>Location-aware play, mobile AR, geospatial data, and real-world interaction design.</p>
+        </div>
+        <div>
+          <span class="stat">Full Stack</span>
+          <p>Flutter/PWA surfaces, Node APIs, PostgreSQL, Redis, auth, and live operations.</p>
+        </div>
+      </section>
+
+      <section class="section-pad" id="work">
+        <div class="section-heading">
+          <p class="eyebrow">Selected work</p>
+          <h2>Featured projects</h2>
+          <p>
+            A growing collection of product work across mobile, web, backend systems, and
+            interactive experiences.
+          </p>
+        </div>
+
+        <article class="featured-project ravia-mission">
+          <div class="featured-copy">
+            <span class="project-label">AR mobile game</span>
+            <h3>Ravia</h3>
+            <p id="ravia-mission-copy">
+              Ravia is a mobile, location-based educational game for children aged 6-17. Players
+              explore real-world locations to collect tokens, solve puzzles, and progress through a
+              reward ecosystem within a safe, parent-supervised environment.
+            </p>
+            <div class="mission-objectives" aria-label="Ravia mission objectives">
+              <button class="mission-objective is-active" type="button" data-ravia-screen="home">
+                <span>01</span>
+                Explore real locations
+              </button>
+              <button class="mission-objective" type="button" data-ravia-screen="puzzle">
+                <span>02</span>
+                Solve educational puzzles
+              </button>
+              <button class="mission-objective" type="button" data-ravia-screen="inventory">
+                <span>03</span>
+                Collect and manage rewards
+              </button>
+              <button class="mission-objective" type="button" data-ravia-screen="store">
+                <span>04</span>
+                Customize the player loop
+              </button>
+            </div>
+            <div class="mission-stats" aria-label="Ravia system stats">
+              <div>
+                <span>AR</span>
+                <strong>92</strong>
+              </div>
+              <div>
+                <span>Safety</span>
+                <strong>88</strong>
+              </div>
+              <div>
+                <span>Rewards</span>
+                <strong>95</strong>
+              </div>
+            </div>
+            <div class="tags">
+              <span>Unity</span>
+              <span>Flutter</span>
+              <span>Google Geospatial API</span>
+              <span>AR</span>
+            </div>
+          </div>
+
+          <div class="ravia-carousel" aria-label="Interactive Ravia mobile app screens">
+            <div class="active-phone">
+              <span class="phone-status">Mission view</span>
+              <div class="phone-viewport">
+                <img
+                  id="ravia-active-screen"
+                  src="assets/images/ar-mobile-game/Home.png"
+                  alt="Ravia home screen showing player status and actions"
+                />
+              </div>
+            </div>
+            <div class="screen-selector" aria-label="Choose Ravia screen">
+              <button class="screen-thumb is-active" type="button" data-ravia-screen="home">
+                <img
+                  src="assets/images/ar-mobile-game/Home.png"
+                  alt="Ravia home screen thumbnail"
+                />
+                <span>Home</span>
+              </button>
+              <button class="screen-thumb" type="button" data-ravia-screen="puzzle">
+                <img
+                  src="assets/images/ar-mobile-game/PuzzleLobby.png"
+                  alt="Ravia puzzle lobby thumbnail"
+                />
+                <span>Puzzle</span>
+              </button>
+              <button class="screen-thumb" type="button" data-ravia-screen="inventory">
+                <img
+                  src="assets/images/ar-mobile-game/Inventory.png"
+                  alt="Ravia inventory screen thumbnail"
+                />
+                <span>Inventory</span>
+              </button>
+              <button class="screen-thumb" type="button" data-ravia-screen="store">
+                <img
+                  src="assets/images/ar-mobile-game/StoreFeatured.png"
+                  alt="Ravia store featured screen thumbnail"
+                />
+                <span>Store</span>
+              </button>
+            </div>
+          </div>
+          <noscript>
+            <div class="phone-gallery" aria-label="Ravia mobile app screens">
+              <img
+                src="assets/images/ar-mobile-game/SplashScreen.png"
+                alt="Ravia splash screen with character artwork"
+              />
+              <img
+              src="assets/images/ar-mobile-game/Home.png"
+              alt="Ravia home screen showing player status and actions"
+              />
+              <img
+                src="assets/images/ar-mobile-game/PuzzleLobby.png"
+                alt="Ravia puzzle lobby screen"
+              />
+            </div>
+          </noscript>
+        </article>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-shot dashboard-shot">
+              <span class="shot-pill">Dashboard</span>
+              <div class="dashboard-monitor">
+                <img
+                  id="dashboard-active-screen"
+                  src="assets/images/dashboard-pwa/dashboard.png"
+                  alt="Ravia dashboard overview showing child profiles and RAV health"
+                />
+              </div>
+              <div class="dashboard-controls" aria-label="Choose dashboard screen">
+                <button class="dashboard-control is-active" type="button" data-dashboard-screen="overview">
+                  Overview
+                </button>
+                <button class="dashboard-control" type="button" data-dashboard-screen="approvals">
+                  Approvals
+                </button>
+                <button class="dashboard-control" type="button" data-dashboard-screen="notifications">
+                  Alerts
+                </button>
+                <button class="dashboard-control" type="button" data-dashboard-screen="settings">
+                  Settings
+                </button>
+                <button class="dashboard-control" type="button" data-dashboard-screen="profile">
+                  Profile
+                </button>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Ravia Parent Dashboard</h3>
+              <p id="dashboard-card-copy">
+                A PWA control center for parent-supervised gameplay, including child profiles,
+                approval flows, notifications, health status, and account settings.
+              </p>
+              <div class="dashboard-stats" aria-label="Dashboard features">
+                <span>Child Status</span>
+                <span>Approval Flow</span>
+                <span>Safety Settings</span>
+              </div>
+              <div class="tags">
+                <span>PWA</span>
+                <span>Dashboard UI</span>
+                <span>Safety Controls</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-shot motogp-shot">
+              <span class="shot-pill">Mobile game</span>
+              <div class="track-line"></div>
+              <div class="speed-card">
+                <span>Licensed racing title</span>
+                <strong>MotoGP</strong>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>MotoGP Championship Quest</h3>
+              <p>
+                Contributed to gameplay systems, maintenance, and mobile performance work for a
+                licensed racing game during my time as a Unity developer.
+              </p>
+              <div class="tags">
+                <span>Unity</span>
+                <span>C#</span>
+                <span>Mobile Optimization</span>
+              </div>
+              <a
+                class="project-link"
+                href="https://launch.tifansi.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View launch page
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-shot endpoint-shot">
+              <span class="shot-pill">Service API</span>
+              <div class="endpoint-line">
+                <span>GET</span>
+                <code>/api/v1/ar</code>
+              </div>
+              <div class="endpoint-line">
+                <span>GET</span>
+                <code>/api/v1/health/ready</code>
+              </div>
+              <div class="endpoint-response">
+                <code>{ challenge_tokens, loot_boxes, checks }</code>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Ravia Backend API</h3>
+              <p>
+                A Node.js service powering Ravia gameplay data, AR map objects, health checks,
+                authentication, geofences, rewards, cosmetics, and parent-supervised flows.
+              </p>
+              <div class="tags">
+                <span>Express</span>
+                <span>PostgreSQL</span>
+                <span>Sequelize</span>
+                <span>Redis</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-pad stack-section" id="stack">
+        <div class="section-heading">
+          <p class="eyebrow">Stack</p>
+          <h2>Unlocked skill tree</h2>
+          <p>
+            Pick a skill path to see the tools, proof, and systems I bring into a build.
+          </p>
+        </div>
+
+        <div class="skill-tree">
+          <div class="skill-nodes" role="tablist" aria-label="Portfolio skill tree">
+            <button class="skill-node is-active" type="button" data-skill="client">
+              <span class="node-icon">01</span>
+              <strong>Game Client</strong>
+              <small>Unity / C# / Mobile</small>
+            </button>
+            <button class="skill-node" type="button" data-skill="ar">
+              <span class="node-icon">02</span>
+              <strong>AR & Interaction</strong>
+              <small>Geospatial / AI / Mocap</small>
+            </button>
+            <button class="skill-node" type="button" data-skill="web">
+              <span class="node-icon">03</span>
+              <strong>Web Systems</strong>
+              <small>Flutter / Node / Data</small>
+            </button>
+            <button class="skill-node" type="button" data-skill="lead">
+              <span class="node-icon">04</span>
+              <strong>Leadership</strong>
+              <small>Mentorship / Direction</small>
+            </button>
+          </div>
+
+          <div class="loadout-detail" aria-live="polite">
+            <span class="loadout-kicker">Selected loadout</span>
+            <h3 id="skill-title">Game Client</h3>
+            <p id="skill-copy">
+              Unity, C#, gameplay loops, mobile optimization, Android, iOS, and desktop builds.
+            </p>
+            <div class="loadout-grid" aria-label="Selected skill tools">
+              <span>Unity</span>
+              <span>C#</span>
+              <span>Mobile Performance</span>
+              <span>Gameplay Systems</span>
+            </div>
+            <div class="skill-proof">
+              <span>Portfolio proof</span>
+              <strong id="skill-proof">MotoGP Championship Quest and Ravia mobile gameplay.</strong>
+            </div>
+            <div class="skill-bars" aria-label="Selected skill strengths">
+              <div>
+                <span>Build Power</span>
+                <div class="skill-meter"><i style="width: 92%"></i></div>
+              </div>
+              <div>
+                <span>Player Feel</span>
+                <div class="skill-meter"><i style="width: 88%"></i></div>
+              </div>
+              <div>
+                <span>Production Sense</span>
+                <div class="skill-meter"><i style="width: 84%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad about-section" id="about">
+        <div class="about-copy">
+          <p class="eyebrow">About</p>
+          <h2>Game developer by heart, systems builder by practice.</h2>
+          <p>
+            My work sits between playful interaction and dependable engineering: Unity games,
+            AR mobile experiences, PWA tools, APIs, and the leadership needed to guide teams from
+            rough prototype to playable release.
+          </p>
+        </div>
+        <div class="timeline" aria-label="Developer values">
+          <div>
+            <span>01</span>
+            <p>Prototype the fantasy early so the core interaction has a pulse.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <p>Build systems that support content, iteration, and live feedback.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <p>Keep the code clear enough for future collaborators and future me.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad contact-section" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Let’s build the next chapter.</h2>
+          <p>
+            Add your email, LinkedIn, GitHub, and resume link here, then this becomes a clean place
+            to send recruiters, clients, and collaborators.
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="mailto:hello@example.com">Email me</a>
+          <a class="button secondary" href="assets/documents/carl-louie-so-cv.pdf" download>
+            Download CV
+          </a>
+          <a class="button secondary" href="https://github.com/" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a class="button secondary" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Carl. Full-stack developer portfolio.</p>
+      <a href="#home">Back to top</a>
+    </footer>
+
+    <div class="image-preview" aria-hidden="true">
+      <img src="assets/images/dashboard-pwa/dashboard.png" alt="" />
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
