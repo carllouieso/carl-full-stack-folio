@@ -2,6 +2,7 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const year = document.querySelector("#year");
 const pixelHeadline = document.querySelector(".pixel-headline");
+const carlSprite = document.querySelector("#carl-sprite");
 const questTabs = document.querySelectorAll(".quest-tab");
 const questTitle = document.querySelector("#quest-title");
 const questCopy = document.querySelector("#quest-copy");
@@ -26,6 +27,11 @@ const loadoutGrid = document.querySelector(".loadout-grid");
 const skillBars = document.querySelectorAll(".skill-meter i");
 const heroXpBars = document.querySelectorAll(".xp-meter span");
 const loadoutDetail = document.querySelector(".loadout-detail");
+const archetypeCards = document.querySelectorAll("[data-archetype]");
+const archetypeTitle = document.querySelector("#archetype-title");
+const archetypeCopy = document.querySelector("#archetype-copy");
+const archetypeTags = document.querySelector(".archetype-tags");
+const archetypeReveal = document.querySelector(".archetype-reveal");
 
 const questContent = {
   games: {
@@ -103,6 +109,26 @@ const dashboardScreens = {
       "Child profile views organize progress, status, and account details into a focused screen for quick parent review.",
   },
 };
+const archetypes = {
+  feel: {
+    title: "Game Feel Engineer",
+    copy:
+      "I care about the invisible parts players feel immediately: input response, readable feedback, rewarding loops, and interfaces that make the next action obvious.",
+    tags: ["Input Feel", "Feedback Loops", "Player Clarity"],
+  },
+  ar: {
+    title: "Real-World Playmaker",
+    copy:
+      "I build experiences that connect digital systems to physical spaces: AR layers, geospatial triggers, safe exploration, and playful learning in real locations.",
+    tags: ["AR Layers", "Geospatial Play", "Safe Exploration"],
+  },
+  fullstack: {
+    title: "Systems Builder",
+    copy:
+      "I like when the magic has a reliable backbone: PWA tools, Flutter surfaces, APIs, databases, rewards, auth, and operations that keep the experience alive.",
+    tags: ["PWA Tools", "Backend APIs", "Live Systems"],
+  },
+};
 const skillLoadouts = {
   client: {
     title: "Game Client",
@@ -134,8 +160,27 @@ const skillLoadouts = {
   },
 };
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const carlSpriteFrames = [
+  "assets/images/sprite/1.png",
+  "assets/images/sprite/2.png",
+  "assets/images/sprite/3.png",
+  "assets/images/sprite/4.png",
+  "assets/images/sprite/5.png",
+  "assets/images/sprite/6.png",
+  "assets/images/sprite/7.png",
+  "assets/images/sprite/8.png",
+];
 
 year.textContent = new Date().getFullYear();
+
+if (carlSprite && !prefersReducedMotion) {
+  let spriteFrame = 0;
+
+  window.setInterval(() => {
+    spriteFrame = (spriteFrame + 1) % carlSpriteFrames.length;
+    carlSprite.src = carlSpriteFrames[spriteFrame];
+  }, 180);
+}
 
 const animateMeter = (bar, targetWidth) => {
   if (!bar) {
@@ -345,6 +390,40 @@ const setSkillLoadout = (skillKey) => {
 skillNodes.forEach((node) => {
   node.addEventListener("click", () => {
     setSkillLoadout(node.dataset.skill);
+  });
+});
+
+const setArchetype = (archetypeKey) => {
+  const selected = archetypes[archetypeKey];
+
+  if (!selected || !archetypeTitle || !archetypeCopy || !archetypeTags) {
+    return;
+  }
+
+  archetypeCards.forEach((card) => {
+    card.classList.toggle("is-active", card.dataset.archetype === archetypeKey);
+  });
+
+  archetypeTitle.textContent = selected.title;
+  archetypeCopy.textContent = selected.copy;
+  archetypeTags.replaceChildren(
+    ...selected.tags.map((tag) => {
+      const item = document.createElement("span");
+      item.textContent = tag;
+      return item;
+    }),
+  );
+
+  if (!prefersReducedMotion && archetypeReveal) {
+    archetypeReveal.classList.remove("is-swapping");
+    void archetypeReveal.offsetWidth;
+    archetypeReveal.classList.add("is-swapping");
+  }
+};
+
+archetypeCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    setArchetype(card.dataset.archetype);
   });
 });
 

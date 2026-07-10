@@ -59,13 +59,14 @@
           </div>
 
           <div class="console-screen">
-            <div class="avatar-frame" aria-hidden="true">
-              <div class="pixel-avatar">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+            <div class="avatar-frame">
+              <span class="avatar-label">Carl idle sprite</span>
+              <img
+                id="carl-sprite"
+                class="carl-sprite"
+                src="assets/images/sprite/1.png"
+                alt="Pixel art idle animation of Carl"
+              />
             </div>
 
             <div class="loadout-panel">
@@ -99,18 +100,39 @@
         </div>
       </section>
 
-      <section class="section-pad intro-band" aria-label="Portfolio highlights">
-        <div>
-          <span class="stat">Game Feel</span>
-          <p>Readable loops, polished feedback, player-first interfaces, and moment-to-moment flow.</p>
+      <section class="section-pad intro-band archetype-section" aria-label="Interactive portfolio highlights">
+        <div class="archetype-cards">
+          <button class="archetype-card is-active" type="button" data-archetype="feel">
+            <span class="stat">Game Feel</span>
+            <p>Readable loops, polished feedback, player-first interfaces, and moment-to-moment flow.</p>
+            <small>Press to inspect</small>
+          </button>
+          <button class="archetype-card" type="button" data-archetype="ar">
+            <span class="stat">AR Systems</span>
+            <p>Location-aware play, mobile AR, geospatial data, and real-world interaction design.</p>
+            <small>Press to inspect</small>
+          </button>
+          <button class="archetype-card" type="button" data-archetype="fullstack">
+            <span class="stat">Full Stack</span>
+            <p>Flutter/PWA surfaces, Node APIs, PostgreSQL, Redis, auth, and live operations.</p>
+            <small>Press to inspect</small>
+          </button>
         </div>
-        <div>
-          <span class="stat">AR Systems</span>
-          <p>Location-aware play, mobile AR, geospatial data, and real-world interaction design.</p>
-        </div>
-        <div>
-          <span class="stat">Full Stack</span>
-          <p>Flutter/PWA surfaces, Node APIs, PostgreSQL, Redis, auth, and live operations.</p>
+
+        <div class="archetype-reveal" aria-live="polite">
+          <span class="loadout-kicker">Identity unlocked</span>
+          <h2 id="archetype-title">Game Feel Engineer</h2>
+          <p id="archetype-copy">I care about the invisible parts players feel immediately: input response, readable feedback, rewarding loops, and interfaces that make the next action obvious.</p>
+          <div class="archetype-orbit" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="archetype-tags" aria-label="Selected identity traits">
+            <span>Input Feel</span>
+            <span>Feedback Loops</span>
+            <span>Player Clarity</span>
+          </div>
         </div>
       </section>
 
