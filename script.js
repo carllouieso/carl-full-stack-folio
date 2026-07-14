@@ -173,14 +173,100 @@ const carlSpriteFrames = [
 
 year.textContent = new Date().getFullYear();
 
-if (carlSprite && !prefersReducedMotion) {
+const minimeSprite = document.querySelector("[data-minime-sprite]");
+
+if ((carlSprite || minimeSprite) && !prefersReducedMotion) {
   let spriteFrame = 0;
 
   window.setInterval(() => {
     spriteFrame = (spriteFrame + 1) % carlSpriteFrames.length;
-    carlSprite.src = carlSpriteFrames[spriteFrame];
+    if (carlSprite) carlSprite.src = carlSpriteFrames[spriteFrame];
+    if (minimeSprite) minimeSprite.src = carlSpriteFrames[spriteFrame];
   }, 180);
 }
+
+const introGate = document.querySelector(".intro-gate");
+const startPortfolioButton = document.querySelector("[data-start-portfolio]");
+const minimeAssistant = document.querySelector(".minime-assistant");
+const minimeToggle = document.querySelector(".minime-toggle");
+const minimePopout = document.querySelector("#minime-popout");
+let introDismissed = false;
+let introAnimating = false;
+
+const syncIntroMinimePosition = () => {
+  if (!minimeAssistant || !document.body.classList.contains("intro-active")) return;
+
+  const styles = getComputedStyle(minimeAssistant);
+  const right = Number.parseFloat(styles.right) || 0;
+  const bottom = Number.parseFloat(styles.bottom) || 0;
+  const baseCenterX = window.innerWidth - right - minimeAssistant.offsetWidth / 2;
+  const baseBottomY = window.innerHeight - bottom;
+
+  document.documentElement.style.setProperty(
+    "--minime-intro-x",
+    `${window.innerWidth / 2 - baseCenterX}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--minime-intro-y",
+    `${window.innerHeight / 2 - baseBottomY + minimeAssistant.offsetHeight * 0.72}px`,
+  );
+};
+
+const dismissIntro = (event) => {
+  if (event?.cancelable) event.preventDefault();
+  if (introAnimating || introDismissed || !introGate) return;
+
+  introAnimating = true;
+  introDismissed = true;
+  document.documentElement.classList.add("intro-scroll-guard");
+  document.body.classList.add("intro-revealing", "intro-scroll-guard");
+  window.scrollTo({ top: 0, behavior: "auto" });
+
+  const travelDuration = prefersReducedMotion ? 0 : 720;
+  window.setTimeout(() => {
+    document.body.classList.remove("intro-active", "intro-revealing");
+    document.body.classList.add("intro-dismissed");
+    introGate.hidden = true;
+    document.documentElement.classList.remove("intro-scroll-guard");
+    document.body.classList.remove("intro-scroll-guard");
+    introAnimating = false;
+  }, travelDuration);
+};
+
+const handleIntroIntent = (event) => {
+  if (!document.body.classList.contains("intro-active")) return;
+  dismissIntro(event);
+};
+
+syncIntroMinimePosition();
+window.addEventListener("resize", syncIntroMinimePosition);
+startPortfolioButton?.addEventListener("click", dismissIntro);
+window.addEventListener("wheel", handleIntroIntent, { passive: false });
+window.addEventListener("touchmove", handleIntroIntent, { passive: false });
+window.addEventListener("keydown", (event) => {
+  if (["ArrowDown", "PageDown", " ", "Enter"].includes(event.key)) handleIntroIntent(event);
+});
+
+const setMinimeOpen = (isOpen) => {
+  if (!minimeAssistant || !minimeToggle || !minimePopout) return;
+  minimeAssistant.classList.toggle("is-open", isOpen);
+  minimeToggle.setAttribute("aria-expanded", String(isOpen));
+  minimePopout.setAttribute("aria-hidden", String(!isOpen));
+};
+
+minimeToggle?.addEventListener("click", () => {
+  setMinimeOpen(!minimeAssistant?.classList.contains("is-open"));
+});
+
+document.addEventListener("click", (event) => {
+  if (!minimeAssistant?.classList.contains("is-open")) return;
+  if (minimeAssistant.contains(event.target)) return;
+  setMinimeOpen(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setMinimeOpen(false);
+});
 
 const animateMeter = (bar, targetWidth) => {
   if (!bar) {
@@ -236,12 +322,12 @@ if (pixelHeadline) {
   }
 }
 
-navToggle.addEventListener("click", () => {
+navToggle?.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(isOpen));
 });
 
-siteNav.addEventListener("click", (event) => {
+siteNav?.addEventListener("click", (event) => {
   if (event.target instanceof HTMLAnchorElement) {
     siteNav.classList.remove("is-open");
     navToggle.setAttribute("aria-expanded", "false");

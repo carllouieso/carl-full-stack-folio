@@ -11,29 +11,17 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="#home" aria-label="Carl portfolio home">
-        <span class="brand-mark">C</span>
-        <span>Carl</span>
-      </a>
-
-      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
+  <body class="intro-active">
+    <section class="intro-gate" aria-label="Portfolio introduction">
+      <div class="intro-message">
+        <p class="intro-kicker">PLAYER ONE HAS ENTERED</p>
+        <h2>Hi! I’m Carl — a game developer, AR builder, and full-stack engineer.</h2>
+      </div>
+      <button class="intro-scroll-cue" type="button" data-start-portfolio>
+        Start scrolling to view my portfolio
+        <span aria-hidden="true">↓</span>
       </button>
-
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#work">Work</a>
-        <a href="#stack">Stack</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a class="nav-download" href="assets/documents/carl-louie-so-cv.pdf" download>
-          Download CV
-        </a>
-      </nav>
-    </header>
-
+    </section>
     <main id="home">
       <section class="hero section-pad">
         <div class="hero-copy">
@@ -60,13 +48,16 @@
 
           <div class="console-screen">
             <div class="avatar-frame">
-              <span class="avatar-label">Carl idle sprite</span>
+              <span class="avatar-label">Player 01</span>
               <img
-                id="carl-sprite"
-                class="carl-sprite"
-                src="assets/images/sprite/1.png"
-                alt="Pixel art idle animation of Carl"
+                class="profile-photo"
+                src="assets/images/profile_picture.png"
+                alt="Portrait of Carl Louie So"
               />
+              <div class="avatar-nameplate">
+                <strong>Carl Louie So</strong>
+                <span>Game Developer · AR · Full-Stack</span>
+              </div>
             </div>
 
             <div class="loadout-panel">
@@ -491,6 +482,27 @@
     <div class="image-preview" aria-hidden="true">
       <img src="assets/images/dashboard-pwa/dashboard.png" alt="" />
     </div>
+
+    <aside class="minime-assistant" aria-label="Mini Carl assistant">
+      <div class="minime-popout" id="minime-popout" aria-hidden="true">
+        <p class="minime-kicker">QUICK MENU</p>
+        <p class="minime-title">Mini Carl can help.</p>
+        <div class="minime-links">
+          <a href="#work">View featured work</a>
+          <a href="#stack">Explore my stack</a>
+          <a href="assets/documents/carl-louie-so-cv.pdf" download>Download CV</a>
+          <a href="#contact">Contact me</a>
+        </div>
+      </div>
+      <button class="minime-toggle" type="button" aria-expanded="false" aria-controls="minime-popout">
+        <span class="minime-bubble">Tap me</span>
+        <img
+          src="assets/images/sprite/1.png"
+          alt="Mini Carl assistant"
+          data-minime-sprite
+        />
+      </button>
+    </aside>
 
     <script src="script.js"></script>
   </body>
