@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": [
+        "/private/tmp/claude-501/-Users-carl-Documents-carl-full-stack-folio/2d17d405-3cda-4454-9ae8-f98ded9546d5/scratchpad/serve.py"
+      ],
+      "port": 4180
+    }
+  ]
+}

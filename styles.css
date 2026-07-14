@@ -3165,3 +3165,34 @@ body {
   font-size: 0.82rem;
   font-weight: 700;
 }
+
+/* MotoGP card: real app icon beside the speed card. */
+.motogp-shot {
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: end;
+  gap: 14px;
+}
+
+.motogp-shot .shot-pill,
+.motogp-shot .track-line {
+  grid-column: 1 / -1;
+}
+
+.motogp-icon {
+  display: block;
+  width: 100%;
+  border-radius: 22%;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
+  transform: rotate(-4deg);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.project-card:hover .motogp-icon {
+  transform: rotate(0deg) translateY(-4px) scale(1.04);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(34, 211, 238, 0.24),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
