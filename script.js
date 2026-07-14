@@ -160,6 +160,17 @@ const skillLoadouts = {
   },
 };
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const supportsViewTransitions =
+  !prefersReducedMotion && typeof document.startViewTransition === "function";
+
+const transitionContent = (update) => {
+  if (!supportsViewTransitions) {
+    update();
+    return;
+  }
+
+  document.startViewTransition(update);
+};
 const carlSpriteFrames = [
   "assets/images/sprite/1.png",
   "assets/images/sprite/2.png",
@@ -370,21 +381,23 @@ const setRaviaScreen = (screenKey) => {
     return;
   }
 
-  raviaScreenControls.forEach((control) => {
-    control.classList.toggle("is-active", control.dataset.raviaScreen === screenKey);
+  transitionContent(() => {
+    raviaScreenControls.forEach((control) => {
+      control.classList.toggle("is-active", control.dataset.raviaScreen === screenKey);
+    });
+
+    raviaActiveScreen.src = screen.src;
+    raviaActiveScreen.alt = screen.alt;
+    raviaMissionCopy.textContent = screen.copy;
+
+    if (raviaActivePhone) {
+      const viewport = raviaActivePhone.querySelector(".phone-viewport");
+      raviaActivePhone.classList.toggle("is-scrollable", screen.scrollable);
+      viewport?.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    }
   });
 
-  raviaActiveScreen.src = screen.src;
-  raviaActiveScreen.alt = screen.alt;
-  raviaMissionCopy.textContent = screen.copy;
-
-  if (raviaActivePhone) {
-    const viewport = raviaActivePhone.querySelector(".phone-viewport");
-    raviaActivePhone.classList.toggle("is-scrollable", screen.scrollable);
-    viewport?.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-  }
-
-  if (!prefersReducedMotion && raviaActivePhone) {
+  if (!supportsViewTransitions && !prefersReducedMotion && raviaActivePhone) {
     raviaActivePhone.classList.remove("is-swapping");
     void raviaActivePhone.offsetWidth;
     raviaActivePhone.classList.add("is-swapping");
@@ -404,19 +417,21 @@ const setDashboardScreen = (screenKey) => {
     return;
   }
 
-  dashboardControls.forEach((control) => {
-    control.classList.toggle("is-active", control.dataset.dashboardScreen === screenKey);
+  transitionContent(() => {
+    dashboardControls.forEach((control) => {
+      control.classList.toggle("is-active", control.dataset.dashboardScreen === screenKey);
+    });
+
+    dashboardActiveScreen.src = screen.src;
+    dashboardActiveScreen.alt = screen.alt;
+    dashboardCardCopy.textContent = screen.copy;
+
+    if (imagePreviewImage) {
+      imagePreviewImage.src = screen.src;
+    }
   });
 
-  dashboardActiveScreen.src = screen.src;
-  dashboardActiveScreen.alt = screen.alt;
-  dashboardCardCopy.textContent = screen.copy;
-
-  if (imagePreviewImage) {
-    imagePreviewImage.src = screen.src;
-  }
-
-  if (!prefersReducedMotion && dashboardMonitor) {
+  if (!supportsViewTransitions && !prefersReducedMotion && dashboardMonitor) {
     dashboardMonitor.classList.remove("is-swapping");
     void dashboardMonitor.offsetWidth;
     dashboardMonitor.classList.add("is-swapping");
@@ -449,26 +464,28 @@ const setSkillLoadout = (skillKey) => {
     return;
   }
 
-  skillNodes.forEach((node) => {
-    node.classList.toggle("is-active", node.dataset.skill === skillKey);
+  transitionContent(() => {
+    skillNodes.forEach((node) => {
+      node.classList.toggle("is-active", node.dataset.skill === skillKey);
+    });
+
+    skillTitle.textContent = loadout.title;
+    skillCopy.textContent = loadout.copy;
+    skillProof.textContent = loadout.proof;
+    loadoutGrid.replaceChildren(
+      ...loadout.tools.map((tool) => {
+        const item = document.createElement("span");
+        item.textContent = tool;
+        return item;
+      }),
+    );
+
+    skillBars.forEach((bar, index) => {
+      animateMeter(bar, loadout.bars[index] || "80%");
+    });
   });
 
-  skillTitle.textContent = loadout.title;
-  skillCopy.textContent = loadout.copy;
-  skillProof.textContent = loadout.proof;
-  loadoutGrid.replaceChildren(
-    ...loadout.tools.map((tool) => {
-      const item = document.createElement("span");
-      item.textContent = tool;
-      return item;
-    }),
-  );
-
-  skillBars.forEach((bar, index) => {
-    animateMeter(bar, loadout.bars[index] || "80%");
-  });
-
-  if (!prefersReducedMotion && loadoutDetail) {
+  if (!supportsViewTransitions && !prefersReducedMotion && loadoutDetail) {
     loadoutDetail.classList.remove("is-swapping");
     void loadoutDetail.offsetWidth;
     loadoutDetail.classList.add("is-swapping");
@@ -488,21 +505,23 @@ const setArchetype = (archetypeKey) => {
     return;
   }
 
-  archetypeCards.forEach((card) => {
-    card.classList.toggle("is-active", card.dataset.archetype === archetypeKey);
+  transitionContent(() => {
+    archetypeCards.forEach((card) => {
+      card.classList.toggle("is-active", card.dataset.archetype === archetypeKey);
+    });
+
+    archetypeTitle.textContent = selected.title;
+    archetypeCopy.textContent = selected.copy;
+    archetypeTags.replaceChildren(
+      ...selected.tags.map((tag) => {
+        const item = document.createElement("span");
+        item.textContent = tag;
+        return item;
+      }),
+    );
   });
 
-  archetypeTitle.textContent = selected.title;
-  archetypeCopy.textContent = selected.copy;
-  archetypeTags.replaceChildren(
-    ...selected.tags.map((tag) => {
-      const item = document.createElement("span");
-      item.textContent = tag;
-      return item;
-    }),
-  );
-
-  if (!prefersReducedMotion && archetypeReveal) {
+  if (!supportsViewTransitions && !prefersReducedMotion && archetypeReveal) {
     archetypeReveal.classList.remove("is-swapping");
     void archetypeReveal.offsetWidth;
     archetypeReveal.classList.add("is-swapping");
@@ -543,14 +562,22 @@ projectCards.forEach((card) => {
 const scrollProgressFill = document.querySelector(".scroll-progress span");
 
 if (scrollProgressFill) {
+  let progressFrame = null;
+
   const updateScrollProgress = () => {
+    progressFrame = null;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = max > 0 ? window.scrollY / max : 0;
-    scrollProgressFill.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+    scrollProgressFill.style.transform = `scaleX(${Math.min(1, Math.max(0, ratio))})`;
   };
 
-  window.addEventListener("scroll", updateScrollProgress, { passive: true });
-  window.addEventListener("resize", updateScrollProgress);
+  const requestScrollProgressUpdate = () => {
+    if (progressFrame !== null) return;
+    progressFrame = window.requestAnimationFrame(updateScrollProgress);
+  };
+
+  window.addEventListener("scroll", requestScrollProgressUpdate, { passive: true });
+  window.addEventListener("resize", requestScrollProgressUpdate);
   updateScrollProgress();
 }
 
@@ -618,6 +645,21 @@ if ("IntersectionObserver" in window && !prefersReducedMotion && revealTargets.l
 
   revealTargets.forEach((element) => {
     element.classList.add("reveal");
+
+    if (element.matches(".section-heading, .about-copy")) {
+      element.style.setProperty("--reveal-x", "-24px");
+      element.style.setProperty("--reveal-y", "0px");
+    } else if (element.matches(".loadout-detail, .archetype-reveal, .contact-section > div")) {
+      element.style.setProperty("--reveal-x", "22px");
+      element.style.setProperty("--reveal-y", "0px");
+    } else if (element.matches(".skill-node, .timeline > div")) {
+      element.style.setProperty("--reveal-x", "-18px");
+      element.style.setProperty("--reveal-y", "0px");
+    } else if (element.matches(".featured-project, .project-card")) {
+      element.style.setProperty("--reveal-y", "34px");
+      element.style.setProperty("--reveal-scale", "0.985");
+    }
+
     const parent = element.parentElement;
     const index = siblingCounts.get(parent) || 0;
     siblingCounts.set(parent, index + 1);
@@ -638,6 +680,9 @@ if ("IntersectionObserver" in window && !prefersReducedMotion && revealTargets.l
           // Jumped over by a fast scroll: show immediately, no animation.
           element.classList.remove("reveal", "is-revealed");
           element.style.removeProperty("--reveal-delay");
+          element.style.removeProperty("--reveal-x");
+          element.style.removeProperty("--reveal-y");
+          element.style.removeProperty("--reveal-scale");
           return;
         }
 
@@ -647,6 +692,9 @@ if ("IntersectionObserver" in window && !prefersReducedMotion && revealTargets.l
         window.setTimeout(() => {
           element.classList.remove("reveal", "is-revealed");
           element.style.removeProperty("--reveal-delay");
+          element.style.removeProperty("--reveal-x");
+          element.style.removeProperty("--reveal-y");
+          element.style.removeProperty("--reveal-scale");
         }, 1400);
       });
     },
