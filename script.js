@@ -230,6 +230,8 @@ const dismissIntro = (event) => {
     document.documentElement.classList.remove("intro-scroll-guard");
     document.body.classList.remove("intro-scroll-guard");
     introAnimating = false;
+    window.removeEventListener("wheel", handleIntroIntent);
+    window.removeEventListener("touchmove", handleIntroIntent);
   }, travelDuration);
 };
 
@@ -533,4 +535,231 @@ projectCards.forEach((card) => {
     card.classList.remove("is-tilting");
     card.style.transform = "";
   });
+});
+
+/* === Life & effects pass === */
+
+// Scroll progress bar (global XP strip).
+const scrollProgressFill = document.querySelector(".scroll-progress span");
+
+if (scrollProgressFill) {
+  const updateScrollProgress = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? window.scrollY / max : 0;
+    scrollProgressFill.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+  };
+
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+  updateScrollProgress();
+}
+
+// Ambient pixel-dust particles drifting up behind the page.
+const fxCanvas = document.querySelector("#fx-canvas");
+
+if (fxCanvas && !prefersReducedMotion) {
+  const fxContext = fxCanvas.getContext("2d");
+  const particleColors = ["rgba(34, 211, 238, ", "rgba(244, 114, 182, ", "rgba(250, 204, 21, "];
+  let fxWidth = 0;
+  let fxHeight = 0;
+  let particles = [];
+
+  const resizeFxCanvas = () => {
+    fxWidth = fxCanvas.width = window.innerWidth;
+    fxHeight = fxCanvas.height = window.innerHeight;
+    const count = Math.min(70, Math.floor((fxWidth * fxHeight) / 22000));
+
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * fxWidth,
+      y: Math.random() * fxHeight,
+      size: Math.random() < 0.75 ? 2 : 4,
+      speed: 0.15 + Math.random() * 0.4,
+      sway: Math.random() * Math.PI * 2,
+      swaySpeed: 0.004 + Math.random() * 0.008,
+      color: particleColors[Math.floor(Math.random() * particleColors.length)],
+      alpha: 0.2 + Math.random() * 0.45,
+    }));
+  };
+
+  const drawFxFrame = () => {
+    fxContext.clearRect(0, 0, fxWidth, fxHeight);
+
+    particles.forEach((particle) => {
+      particle.y -= particle.speed;
+      particle.sway += particle.swaySpeed;
+
+      if (particle.y < -6) {
+        particle.y = fxHeight + 6;
+        particle.x = Math.random() * fxWidth;
+      }
+
+      const drawX = particle.x + Math.sin(particle.sway) * 14;
+      const twinkle = 0.6 + Math.sin(particle.sway * 3) * 0.4;
+
+      fxContext.fillStyle = `${particle.color}${(particle.alpha * twinkle).toFixed(3)})`;
+      fxContext.fillRect(Math.round(drawX), Math.round(particle.y), particle.size, particle.size);
+    });
+
+    window.requestAnimationFrame(drawFxFrame);
+  };
+
+  resizeFxCanvas();
+  window.addEventListener("resize", resizeFxCanvas);
+  window.requestAnimationFrame(drawFxFrame);
+}
+
+// Scroll-reveal choreography with per-sibling stagger.
+const revealTargets = document.querySelectorAll(
+  ".section-heading, .featured-project, .project-card, .archetype-card, .archetype-reveal, .skill-node, .loadout-detail, .about-copy, .timeline > div, .contact-section > div, .skill-ticker",
+);
+
+if ("IntersectionObserver" in window && !prefersReducedMotion && revealTargets.length) {
+  const siblingCounts = new Map();
+
+  revealTargets.forEach((element) => {
+    element.classList.add("reveal");
+    const parent = element.parentElement;
+    const index = siblingCounts.get(parent) || 0;
+    siblingCounts.set(parent, index + 1);
+    element.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const element = entry.target;
+        const scrolledPast = entry.boundingClientRect.bottom < 0;
+
+        if (!entry.isIntersecting && !scrolledPast) return;
+
+        revealObserver.unobserve(element);
+
+        if (scrolledPast) {
+          // Jumped over by a fast scroll: show immediately, no animation.
+          element.classList.remove("reveal", "is-revealed");
+          element.style.removeProperty("--reveal-delay");
+          return;
+        }
+
+        element.classList.add("is-revealed");
+
+        // Return the element to stylesheet defaults so hover transforms keep working.
+        window.setTimeout(() => {
+          element.classList.remove("reveal", "is-revealed");
+          element.style.removeProperty("--reveal-delay");
+        }, 1400);
+      });
+    },
+    // The large top margin keeps fast scrolls from skipping elements entirely:
+    // anything at or above the viewport counts as intersecting and gets revealed.
+    { threshold: 0, rootMargin: "10000px 0px -40px 0px" },
+  );
+
+  revealTargets.forEach((element) => revealObserver.observe(element));
+}
+
+// Cursor-tracked glow spots inside cards.
+const glowHosts = document.querySelectorAll(
+  ".project-card, .featured-project, .archetype-card, .loadout-detail, .archetype-reveal",
+);
+
+if (!prefersReducedMotion && window.matchMedia("(hover: hover)").matches) {
+  glowHosts.forEach((host) => {
+    host.classList.add("has-glow");
+
+    const spot = document.createElement("span");
+    spot.className = "glow-spot";
+    host.appendChild(spot);
+
+    host.addEventListener("pointermove", (event) => {
+      const bounds = host.getBoundingClientRect();
+      spot.style.left = `${event.clientX - bounds.left}px`;
+      spot.style.top = `${event.clientY - bounds.top}px`;
+    });
+  });
+}
+
+// Pixel confetti bursts.
+const spawnConfetti = (originX, originY, count = 18) => {
+  if (prefersReducedMotion) return;
+
+  const palette = ["#22d3ee", "#f472b6", "#facc15", "#f7fbff"];
+
+  for (let i = 0; i < count; i += 1) {
+    const pixel = document.createElement("span");
+    pixel.className = "confetti-pixel";
+    pixel.style.background = palette[Math.floor(Math.random() * palette.length)];
+    pixel.style.left = `${originX}px`;
+    pixel.style.top = `${originY}px`;
+    document.body.appendChild(pixel);
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 60 + Math.random() * 130;
+    const burst = pixel.animate(
+      [
+        { transform: "translate(0, 0) rotate(0deg)", opacity: 1 },
+        {
+          transform: `translate(${Math.cos(angle) * distance}px, ${
+            Math.sin(angle) * distance - 44
+          }px) rotate(${Math.random() * 540 - 270}deg)`,
+          opacity: 0,
+        },
+      ],
+      { duration: 700 + Math.random() * 500, easing: "cubic-bezier(0.2, 0.8, 0.4, 1)" },
+    );
+
+    burst.onfinish = () => pixel.remove();
+  }
+};
+
+xpButton?.addEventListener("click", () => {
+  const bounds = xpButton.getBoundingClientRect();
+  spawnConfetti(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2, 16);
+});
+
+// Konami code easter egg: cheat toast, full XP, confetti storm.
+const konamiSequence = [
+  "ArrowUp",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowDown",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowRight",
+  "b",
+  "a",
+];
+let konamiProgress = 0;
+
+document.addEventListener("keydown", (event) => {
+  const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+  konamiProgress = key === konamiSequence[konamiProgress]
+    ? konamiProgress + 1
+    : key === konamiSequence[0]
+      ? 1
+      : 0;
+
+  if (konamiProgress < konamiSequence.length) return;
+  konamiProgress = 0;
+
+  const toast = document.createElement("div");
+  toast.className = "cheat-toast";
+  toast.textContent = "CHEAT UNLOCKED: +9999 XP";
+  document.body.appendChild(toast);
+  window.setTimeout(() => toast.remove(), 3100);
+
+  heroXpBars.forEach((bar) => {
+    bar.style.width = "100%";
+  });
+
+  for (let i = 0; i < 5; i += 1) {
+    window.setTimeout(() => {
+      spawnConfetti(
+        Math.random() * window.innerWidth,
+        window.innerHeight * (0.18 + Math.random() * 0.4),
+        24,
+      );
+    }, i * 160);
+  }
 });

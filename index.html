@@ -9,9 +9,17 @@
     />
     <title>Carl | Full-Stack Developer</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="intro-active">
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
     <section class="intro-gate" aria-label="Portfolio introduction">
       <div class="intro-message">
         <p class="intro-kicker">PLAYER ONE HAS ENTERED</p>
@@ -90,6 +98,19 @@
           </div>
         </div>
       </section>
+
+      <div class="skill-ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>
+            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ PostgreSQL ✦ Redis ✦ Game Feel ✦
+            PWA ✦ Mentorship ✦&nbsp;
+          </span>
+          <span>
+            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ PostgreSQL ✦ Redis ✦ Game Feel ✦
+            PWA ✦ Mentorship ✦&nbsp;
+          </span>
+        </div>
+      </div>
 
       <section class="section-pad intro-band archetype-section" aria-label="Interactive portfolio highlights">
         <div class="archetype-cards">
@@ -314,13 +335,97 @@
                 <span>C#</span>
                 <span>Mobile Optimization</span>
               </div>
+              <div class="project-links">
+                <a
+                  class="project-link"
+                  href="https://apps.apple.com/ph/app/motogp-guru-racing-25-26/id1054859250"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View on the App Store ↗
+                </a>
+                <a
+                  class="project-link"
+                  href="https://launch.tifansi.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Launch page ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-shot ep-shot">
+              <span class="shot-pill">AR tourism app</span>
+              <div class="ep-gallery">
+                <img
+                  src="assets/images/experience-philippines/1.png"
+                  alt="Experience Philippines app screen"
+                />
+                <img
+                  src="assets/images/experience-philippines/2.png"
+                  alt="Experience Philippines app screen"
+                />
+                <img
+                  src="assets/images/experience-philippines/3.png"
+                  alt="Experience Philippines app screen"
+                />
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Experience Philippines</h3>
+              <p>
+                A tourism app built in partnership with the Philippine Department of Tourism: a
+                virtual tour guide with AR attractions like the MassKara Festival and the
+                Presidential Gallery, plus Philippine destination films. Live on the App Store.
+              </p>
+              <div class="tags">
+                <span>Unity</span>
+                <span>AR</span>
+                <span>Mobile</span>
+                <span>Tourism</span>
+              </div>
               <a
                 class="project-link"
-                href="https://launch.tifansi.com/"
+                href="https://apps.apple.com/ph/app/experience-philippines/id1484990731"
                 target="_blank"
                 rel="noreferrer"
               >
-                View launch page
+                View on the App Store ↗
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-shot iacademy-shot">
+              <span class="shot-pill">Campus app</span>
+              <div class="ar-frame">
+                <span class="ar-chip">AR BROCHURE · ARTECH</span>
+                <strong>iACADEMY APP</strong>
+                <span>Student portal · iSIMS grades &amp; schedules · Campus news</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>iACADEMY App</h3>
+              <p>
+                The official campus app for iACADEMY students: grades and schedules through iSIMS,
+                announcements, a school directory, and an augmented reality brochure that brings
+                the campus to life. Live on the App Store.
+              </p>
+              <div class="tags">
+                <span>Mobile App</span>
+                <span>AR</span>
+                <span>Education</span>
+              </div>
+              <a
+                class="project-link"
+                href="https://apps.apple.com/ph/app/iacademy-app/id1038680587"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View on the App Store ↗
               </a>
             </div>
           </article>
@@ -460,7 +565,7 @@
           </p>
         </div>
         <div class="contact-actions">
-          <a class="button primary" href="mailto:hello@example.com">Email me</a>
+          <a class="button primary" href="mailto:carl@ravia.gg">Email me</a>
           <a class="button secondary" href="assets/documents/carl-louie-so-cv.pdf" download>
             Download CV
           </a>

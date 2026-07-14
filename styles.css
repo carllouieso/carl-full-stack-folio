@@ -2379,6 +2379,7 @@ body.intro-active .minime-popout { display: none; }
   image-rendering: pixelated;
   filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px rgba(34, 211, 238, 0.25));
   transform-origin: bottom center;
+  transform: scaleX(-1);
   transition: transform 180ms ease, filter 180ms ease;
 }
 
@@ -2386,7 +2387,7 @@ body.intro-active .minime-popout { display: none; }
 .minime-toggle:focus-visible img,
 .minime-assistant.is-open .minime-toggle img {
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.62)) drop-shadow(0 0 18px rgba(34, 211, 238, 0.42));
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-4px) scaleX(-1) scale(1.05);
 }
 
 .minime-toggle:focus-visible {
@@ -2397,17 +2398,31 @@ body.intro-active .minime-popout { display: none; }
 
 .minime-bubble {
   position: absolute;
-  top: 0;
-  right: 3px;
+  top: -26px;
+  right: -2px;
   border: 1px solid var(--gold);
-  border-radius: 999px;
+  border-radius: 10px 10px 2px 10px;
   background: #0d1428;
   color: var(--gold);
-  padding: 5px 8px;
+  box-shadow: 3px 3px 0 rgba(244, 114, 182, 0.42);
+  padding: 7px 10px;
   font-family: var(--pixel-font);
   font-size: 0.66rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.minime-bubble::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+  background: #0d1428;
+  transform: rotate(45deg);
 }
 
 body.intro-active .minime-bubble { display: none; }
@@ -2425,6 +2440,7 @@ body.intro-active .minime-bubble { display: none; }
   .minime-assistant { right: 8px; bottom: 8px; }
   .minime-toggle { width: 96px; min-height: 110px; }
   .minime-toggle img { width: 76px; }
+  .minime-bubble { top: -22px; right: -1px; }
 }
 
 /* Hero viewport fit pass: keep the player profile visible without losing the game console feel. */
@@ -2607,4 +2623,545 @@ body.intro-active .minime-bubble { display: none; }
   .avatar-frame {
     min-height: 190px;
   }
+}
+
+/* ============================================================
+   Life & effects redesign pass
+   Real pixel typography, ambient motion, reveals, and glow.
+   ============================================================ */
+
+:root {
+  --pixel-font: "Press Start 2P", "Courier New", "Lucida Console", monospace;
+  --body-font: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+}
+
+/* Ambient pixel-dust canvas sits between the page background and content. */
+#fx-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Scroll progress styled as a global XP strip. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 60;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.scroll-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--pink), var(--gold));
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.6);
+}
+
+/* Headline switches to display type; pixel font handles the accents. */
+.pixel-headline {
+  font-family: var(--body-font);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Press Start 2P renders much larger than Courier: recalibrate accents. */
+.eyebrow {
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+}
+
+.button {
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+}
+
+.console-topbar {
+  font-size: 0.58rem;
+}
+
+.loadout-kicker,
+.quest-label {
+  font-size: 0.54rem;
+  line-height: 1.7;
+}
+
+.xp-label {
+  font-size: 0.54rem;
+  line-height: 1.8;
+}
+
+.loadout-panel h2 {
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  line-height: 1.55;
+}
+
+.quest-tab,
+.mini-game-button {
+  font-size: 0.54rem;
+}
+
+.quest-card h3 {
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.avatar-label {
+  font-size: 0.48rem;
+}
+
+.avatar-nameplate strong {
+  font-size: 0.58rem;
+  line-height: 1.55;
+}
+
+.avatar-nameplate span {
+  font-size: 0.42rem;
+  line-height: 1.7;
+}
+
+.stat {
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+.archetype-card small {
+  font-size: 0.5rem;
+}
+
+.archetype-reveal h2 {
+  font-size: clamp(1rem, 2.2vw, 1.55rem);
+  line-height: 1.65;
+}
+
+.project-label {
+  font-size: 0.54rem;
+}
+
+.mission-objective span {
+  font-size: 0.6rem;
+}
+
+.mission-stats strong {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.phone-status {
+  font-size: 0.48rem;
+}
+
+.screen-thumb {
+  font-size: 0.54rem;
+}
+
+.shot-pill {
+  font-size: 0.5rem;
+}
+
+.dashboard-control {
+  font-size: 0.48rem;
+}
+
+.image-preview::before {
+  font-size: 0.54rem;
+}
+
+.node-icon {
+  font-size: 0.6rem;
+}
+
+.skill-node strong {
+  font-size: 0.64rem;
+  line-height: 1.55;
+}
+
+.loadout-detail h3 {
+  font-size: clamp(1rem, 2.2vw, 1.65rem);
+  line-height: 1.55;
+}
+
+.skill-proof span {
+  font-size: 0.5rem;
+}
+
+.intro-kicker {
+  font-size: 0.6rem;
+}
+
+.intro-message h2 {
+  font-size: clamp(0.76rem, 1.7vw, 1.02rem);
+  line-height: 1.95;
+}
+
+.intro-scroll-cue {
+  font-size: 0.58rem;
+}
+
+.minime-kicker {
+  font-size: 0.5rem;
+}
+
+.minime-title {
+  font-size: 0.64rem;
+  line-height: 1.6;
+}
+
+.minime-links a {
+  font-size: 0.54rem;
+}
+
+.minime-bubble {
+  font-size: 0.52rem;
+}
+
+/* Gradient ink for the big section statements. */
+.section-heading h2,
+.about-copy h2,
+.contact-section h2 {
+  background: linear-gradient(115deg, #ffffff 30%, #9be8f5 62%, #f5b8d9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.section-heading h2 {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.section-heading h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 78px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--pink), var(--gold));
+  background-size: 180% 100%;
+  animation: meter-shimmer 1.8s linear infinite;
+}
+
+/* Scroll-reveal choreography (classes removed after settling). */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 700ms ease var(--reveal-delay, 0ms),
+    transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cursor-tracked glow inside cards. */
+.has-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-spot {
+  position: absolute;
+  z-index: 0;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.14), transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 260ms ease;
+}
+
+.has-glow:hover .glow-spot {
+  opacity: 1;
+}
+
+/* Shine sweep across buttons. */
+.button {
+  position: relative;
+  overflow: hidden;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -80%;
+  width: 55%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  pointer-events: none;
+  transform: skewX(-20deg);
+  transition: left 520ms ease;
+}
+
+.button:hover::after {
+  left: 135%;
+}
+
+/* Scrolling skills ticker. */
+.skill-ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px 0;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.skill-ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-track span {
+  color: var(--muted);
+  font-family: var(--pixel-font);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Gentle idle float for the player console. */
+.game-console {
+  animation: console-float 7s ease-in-out infinite;
+}
+
+@keyframes console-float {
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* Glitch flicker on the featured project title. */
+.featured-copy h3:hover {
+  animation: title-glitch 340ms steps(2) infinite;
+}
+
+@keyframes title-glitch {
+  0% {
+    text-shadow: 3px 0 var(--pink), -3px 0 var(--accent);
+    transform: translateX(0);
+  }
+
+  50% {
+    text-shadow: -3px 0 var(--accent), 3px 0 var(--pink);
+    transform: translateX(2px);
+  }
+
+  100% {
+    text-shadow: 2px 0 var(--gold), -2px 0 var(--accent);
+    transform: translateX(-1px);
+  }
+}
+
+/* Chips respond to hover everywhere. */
+.tags span,
+.dashboard-stats span,
+.loadout-grid span,
+.archetype-tags span,
+.feature-list span,
+.timeline div {
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.tags span:hover,
+.dashboard-stats span:hover,
+.loadout-grid span:hover,
+.archetype-tags span:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.timeline div:hover {
+  border-left-color: var(--gold);
+  transform: translateX(6px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+/* Confetti pixels + cheat toast. */
+.confetti-pixel {
+  position: fixed;
+  z-index: 80;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+}
+
+.cheat-toast {
+  position: fixed;
+  top: 16%;
+  left: 50%;
+  z-index: 95;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  background: rgba(13, 20, 40, 0.96);
+  box-shadow: 6px 6px 0 rgba(244, 114, 182, 0.5), 0 24px 70px rgba(0, 0, 0, 0.5);
+  padding: 16px 22px;
+  color: var(--gold);
+  font-family: var(--pixel-font);
+  font-size: 0.68rem;
+  transform: translateX(-50%);
+  animation: toast-pop 3s ease forwards;
+}
+
+@keyframes toast-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -14px);
+  }
+
+  12%,
+  82% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -18px);
+  }
+}
+
+@media (max-width: 760px) {
+  .eyebrow {
+    font-size: 0.56rem;
+  }
+
+  .ticker-track span {
+    font-size: 0.54rem;
+  }
+
+  .intro-message h2 {
+    font-size: 0.72rem;
+    line-height: 2;
+  }
+
+  .glow-spot {
+    display: none;
+  }
+}
+
+/* Live app store project cards */
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+
+.ep-shot {
+  align-content: end;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(34, 211, 238, 0.2), transparent 42%),
+    linear-gradient(150deg, rgba(14, 116, 144, 0.5), rgba(8, 11, 24, 0.92)),
+    #0b2530;
+}
+
+.ep-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.ep-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 346 / 720;
+  border: 4px solid #050713;
+  border-radius: 14px;
+  background: #050713;
+  object-fit: cover;
+  object-position: top;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.42);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.ep-gallery img:nth-child(2) {
+  transform: translateY(-12px);
+}
+
+.ep-gallery img:hover {
+  transform: translateY(-16px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(34, 211, 238, 0.2);
+}
+
+.iacademy-shot {
+  align-content: end;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(250, 204, 21, 0.16), transparent 42%),
+    linear-gradient(135deg, rgba(30, 41, 59, 0.92), rgba(8, 11, 24, 0.96)),
+    #111827;
+}
+
+.ar-frame {
+  position: relative;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px 20px 20px;
+}
+
+.ar-frame::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(34, 211, 238, 0.42);
+  border-radius: 6px;
+  pointer-events: none;
+  animation: ar-scan-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes ar-scan-pulse {
+  50% {
+    border-color: rgba(34, 211, 238, 0.14);
+  }
+}
+
+.ar-chip {
+  display: inline-flex;
+  margin-bottom: 12px;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: var(--accent);
+  font-family: var(--pixel-font);
+  font-size: 0.5rem;
+}
+
+.ar-frame strong {
+  display: block;
+  margin-bottom: 6px;
+  color: white;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1;
+}
+
+.ar-frame > span:last-child {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
