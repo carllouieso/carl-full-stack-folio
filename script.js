@@ -147,8 +147,8 @@ const skillLoadouts = {
   web: {
     title: "Web Systems",
     copy: "Next.js, TypeScript, Supabase, Stripe, Flutter surfaces, PWA dashboards, Node.js, PostgreSQL, Redis, and LLM integrations.",
-    tools: ["Next.js", "Supabase", "Stripe", "Node.js", "PostgreSQL", "Gemini API"],
-    proof: "ClientDeck, Opsbot, Ravia Parent Dashboard, and Ravia Backend API.",
+    tools: ["Next.js", "Supabase", "Firebase", "Stripe", "Node.js", "PostgreSQL", "Gemini API"],
+    proof: "ClientDeck, Opsbot, Habitforge, Squadroom, and the Ravia platform.",
     bars: ["86%", "90%", "88%"],
   },
   lead: {
