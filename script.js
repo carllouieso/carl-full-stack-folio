@@ -146,9 +146,9 @@ const skillLoadouts = {
   },
   web: {
     title: "Web Systems",
-    copy: "Flutter surfaces, PWA dashboards, JavaScript, Node.js, Express, PostgreSQL, Redis, and API documentation.",
-    tools: ["Flutter", "PWA", "Node.js", "PostgreSQL", "Redis"],
-    proof: "Ravia Parent Dashboard and Ravia Backend API.",
+    copy: "Next.js, TypeScript, Supabase, Stripe, Flutter surfaces, PWA dashboards, Node.js, PostgreSQL, Redis, and LLM integrations.",
+    tools: ["Next.js", "Supabase", "Stripe", "Node.js", "PostgreSQL", "Gemini API"],
+    proof: "ClientDeck, Opsbot, Ravia Parent Dashboard, and Ravia Backend API.",
     bars: ["86%", "90%", "88%"],
   },
   lead: {
@@ -637,7 +637,7 @@ if (fxCanvas && !prefersReducedMotion) {
 
 // Scroll-reveal choreography with per-sibling stagger.
 const revealTargets = document.querySelectorAll(
-  ".section-heading, .featured-project, .project-card, .archetype-card, .archetype-reveal, .skill-node, .loadout-detail, .about-copy, .timeline > div, .contact-section > div, .skill-ticker",
+  ".section-heading, .featured-project, .project-card, .archetype-card, .archetype-reveal, .skill-node, .loadout-detail, .about-copy, .timeline > div, .contact-section > div, .skill-ticker, .arcade-cabinet",
 );
 
 if ("IntersectionObserver" in window && !prefersReducedMotion && revealTargets.length) {

@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=2" />
   </head>
   <body class="intro-active">
     <canvas id="fx-canvas" aria-hidden="true"></canvas>
@@ -102,12 +102,12 @@
       <div class="skill-ticker" aria-hidden="true">
         <div class="ticker-track">
           <span>
-            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ PostgreSQL ✦ Redis ✦ Game Feel ✦
-            PWA ✦ Mentorship ✦&nbsp;
+            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ Next.js ✦ Supabase ✦ Stripe ✦
+            PostgreSQL ✦ Redis ✦ Gemini ✦ Game Feel ✦ PWA ✦ Mentorship ✦&nbsp;
           </span>
           <span>
-            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ PostgreSQL ✦ Redis ✦ Game Feel ✦
-            PWA ✦ Mentorship ✦&nbsp;
+            Unity ✦ C# ✦ AR ✦ Geospatial ✦ Flutter ✦ Node.js ✦ Next.js ✦ Supabase ✦ Stripe ✦
+            PostgreSQL ✦ Redis ✦ Gemini ✦ Game Feel ✦ PWA ✦ Mentorship ✦&nbsp;
           </span>
         </div>
       </div>
@@ -464,6 +464,80 @@
               </div>
             </div>
           </article>
+
+          <article class="project-card">
+            <div class="project-shot clientdeck-shot">
+              <span class="shot-pill">SaaS dashboard</span>
+              <div class="deck-window">
+                <div class="deck-topbar">
+                  <i></i><i></i><i></i>
+                  <span class="deck-plan">PRO</span>
+                </div>
+                <div class="deck-row"><span></span><b style="width: 72%"></b></div>
+                <div class="deck-row"><span></span><b style="width: 54%"></b></div>
+                <div class="deck-row is-live"><span></span><b style="width: 84%"></b><small>● live</small></div>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>ClientDeck</h3>
+              <p>
+                A working SaaS dashboard: Supabase auth and Postgres with row-level security, a
+                realtime activity feed, and Stripe-powered Free and Pro tiers with a live upgrade
+                flow — try it with Stripe's test card.
+              </p>
+              <div class="tags">
+                <span>Next.js</span>
+                <span>TypeScript</span>
+                <span>Supabase</span>
+                <span>Stripe</span>
+              </div>
+              <div class="project-links">
+                <a
+                  class="project-link"
+                  href="https://github.com/carllouieso/clientdeck"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View the code ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-shot opsbot-shot">
+              <span class="shot-pill">AI assistant</span>
+              <div class="ops-console">
+                <p class="ops-prompt">&gt; draft a payment reminder email for Acme Corp</p>
+                <pre class="ops-json">{ "action": "draft_email",
+  "title": "Payment Reminder — Acme" }</pre>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Opsbot</h3>
+              <p>
+                An AI operations assistant: plain-English requests become structured business
+                actions — drafted emails, generated documents, webhook payloads, reminders — via
+                Gemini with a strict JSON schema, a rate-limited API, and an automation log.
+              </p>
+              <div class="tags">
+                <span>Next.js</span>
+                <span>Gemini API</span>
+                <span>LLM Integration</span>
+                <span>Automation</span>
+              </div>
+              <div class="project-links">
+                <a
+                  class="project-link"
+                  href="https://github.com/carllouieso/opsbot"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View the code ↗
+                </a>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -531,6 +605,78 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="section-pad arcade-section" id="arcade">
+        <div class="section-heading">
+          <p class="eyebrow">Bonus stage</p>
+          <h2>Pixel Peak</h2>
+          <p>
+            A tiny game built for this site. Drop the sliding block on the tower — overhang gets
+            sliced off, perfect drops build your combo back up. How high can you climb?
+          </p>
+        </div>
+
+        <div class="arcade-cabinet">
+          <div class="arcade-screen-wrap">
+            <canvas id="pixel-peak" width="420" height="560" aria-label="Pixel Peak stacking game"></canvas>
+            <div class="arcade-overlay" data-arcade-overlay>
+              <p class="arcade-brand" data-arcade-title>PIXEL PEAK</p>
+              <p class="arcade-copy" data-arcade-copy>Space, click, or tap to drop the block.</p>
+              <form class="arcade-submit" data-arcade-submit hidden>
+                <input
+                  type="text"
+                  maxlength="12"
+                  placeholder="YOUR NAME"
+                  aria-label="Name for the global leaderboard"
+                  data-arcade-name
+                />
+                <button class="button secondary" type="submit">Post to global board</button>
+              </form>
+              <button class="button primary" type="button" data-arcade-start>Insert Coin</button>
+            </div>
+          </div>
+
+          <aside class="arcade-side">
+            <div class="arcade-readouts">
+              <div>
+                <span>Score</span>
+                <strong data-arcade-score>0</strong>
+              </div>
+              <div>
+                <span>Best</span>
+                <strong data-arcade-best>0</strong>
+              </div>
+              <div>
+                <span>Combo</span>
+                <strong data-arcade-combo>-</strong>
+              </div>
+            </div>
+
+            <div class="arcade-badges" aria-label="Pixel Peak badges">
+              <p class="loadout-kicker">Badges</p>
+              <ul>
+                <li data-badge="base-camp"><strong>Base Camp</strong><span>Stack 10 blocks</span></li>
+                <li data-badge="ridge-runner"><strong>Ridge Runner</strong><span>Stack 25 blocks</span></li>
+                <li data-badge="summit-crew"><strong>Summit Crew</strong><span>Stack 50 blocks</span></li>
+                <li data-badge="combo-3"><strong>Triple Clean</strong><span>3 perfect drops in a row</span></li>
+                <li data-badge="combo-7"><strong>Locked In</strong><span>7 perfect drops in a row</span></li>
+              </ul>
+            </div>
+
+            <div class="arcade-board" aria-label="Pixel Peak local leaderboard">
+              <p class="loadout-kicker">Top climbs</p>
+              <ol data-arcade-board></ol>
+              <small>Scores are saved on this device.</small>
+            </div>
+
+            <div class="arcade-board" aria-label="Pixel Peak global leaderboard" data-arcade-global-wrap hidden>
+              <p class="loadout-kicker">Global peaks</p>
+              <ol data-arcade-global></ol>
+              <small>Live worldwide top 5 — powered by Supabase.</small>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -602,6 +748,7 @@
         <div class="minime-links">
           <a href="#work">View featured work</a>
           <a href="#stack">Explore my stack</a>
+          <a href="#arcade">Play Pixel Peak</a>
           <a href="assets/documents/carl-louie-so-cv.pdf" download>Download CV</a>
           <a href="#contact">Contact me</a>
         </div>
@@ -616,6 +763,7 @@
       </button>
     </aside>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
+    <script src="pixel-peak.js?v=2"></script>
   </body>
 </html>
